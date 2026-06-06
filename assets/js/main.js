@@ -1,6 +1,23 @@
 // Loader
 window.addEventListener('load',()=>{setTimeout(()=>document.querySelector('.loader')?.classList.add('gone'),500)});
 
+// Page transitions — show loader when navigating between pages
+document.addEventListener('click',e=>{
+  const a=e.target.closest('a[href]');
+  if(!a)return;
+  const href=a.getAttribute('href');
+  if(!href||href.startsWith('#')||href.startsWith('http')||href.startsWith('//')||href.startsWith('javascript:')||a.hasAttribute('download')||a.hasAttribute('target'))return;
+  e.preventDefault();
+  const loader=document.querySelector('.loader');
+  if(loader){
+    loader.classList.remove('gone');
+    loader.querySelector('.loader-logo')?.style.setProperty('animation','none');
+    loader.offsetHeight;
+    loader.querySelector('.loader-logo')?.style.removeProperty('animation');
+  }
+  setTimeout(()=>{window.location.href=href},400);
+});
+
 // Year
 document.getElementById('yr') && (document.getElementById('yr').textContent=new Date().getFullYear());
 
